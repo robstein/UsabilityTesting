@@ -2,32 +2,97 @@
     ViewBag.Title = "Home Page";
 }
 
+<script type="text/javascript">
+    @{
+        var userid=Convert.ToInt32(ViewData["userid"] as string);
+        @Html.Encode("var userid = " + userid + ";");
+     }
+</script>
 
 <div id="content">
     <div class="container">
 
         <hr>
-        <div class="row">
+        <div class="row teststuff">
             <div class="col-md-4">
 
                 <div id="wireframe">
-                    <img src="/Content/nexus5.png">
+                    <img id="image_curr" class="teststuff" width="315" src="/Content/nooz@{var firstimage=ViewData["firstimage"] as string;@Html.Encode(firstimage)}.jpg">
                 </div>
 
             </div>
             <div class="col-md-8">
 
-                <h3>Where would you click to do xyz?</h3>
+                <h3 id="text_question" class="teststuff">
+                    @{
+                        var firstquestion = ViewData["firstquestion"] as string;
+                        @Html.Encode(firstquestion)
+                    }
+                </h3>
 
 
-                <p id="coordinates" class="text-warning"></p>
+                <div class="form-group">
+                    <p id="coordinates" class="text-warning teststuff"> </p>
+
+                    <label class="col-md-2 control-label teststuff" for="textarea">Comments:</label>
+                    <div class="col-md-10 teststuff">
+                        <textarea id="comments" class="form-control" id="textarea" name="textarea"></textarea>
+                    </div>
+                    <br>
 
 
-                <button type="button" class="btn btn-lg btn-primary">Next »</button>
+                </div>
+
+                <div class="form-group">
+
+
+                    <div class="col-md-4">
+                        <button id="btn_next" type="button" class="btn btn-lg btn-primary teststuff">Next »</button>
+
+
+                    </div>
+                    <div class="col-md-8"></div>
+                    <hr>
+                </div>
+                <strong id="thanks" style="color:red; display:none;">Thanks!</strong>
+
+
+
+
 
             </div>
         </div>
-        <hr>
 
-    </div><!-- /.container -->
+        <div class="row finalthanks" style="display:none">
+
+            <form class="form-horizontal">
+                <fieldset>
+
+                    <!-- Form Name -->
+                    <legend id="after_quiz_comm">Subscribe to stay updated about Nooz</legend>
+                    <div id="emailsub">
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="email">Email</label>
+                            <div class="col-md-6">
+                                <input id="email" name="email" type="text" placeholder="" class="form-control input-md">
+
+                            </div>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="submit_email"></label>
+                            <div class="col-md-4">
+                                <button id="submit_email" name="submit_email" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+            <hr />
+
+        </div><!-- /.container -->
 </div>
