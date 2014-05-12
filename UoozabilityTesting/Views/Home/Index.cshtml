@@ -16,8 +16,7 @@
         <div class="row teststuff">
             <div class="col-md-4">
 
-                <div id="wireframe">
-                    <img id="image_curr" class="teststuff" width="315" src="/Content/nooz@{var firstimage=ViewData["firstimage"] as string;@Html.Encode(firstimage)}.jpg">
+                <div id="wireframe" style="width: 312px; height: 614px; background-image: url('/Content/nexus_nooz@{var firstimage=ViewData["firstimage"] as string;@Html.Encode(firstimage)}.jpg'); ">
                 </div>
 
             </div>
@@ -36,7 +35,7 @@
 
                     <label class="col-md-2 control-label teststuff" for="textarea">Comments:</label>
                     <div class="col-md-10 teststuff">
-                        <textarea id="comments" class="form-control" id="textarea" name="textarea"></textarea>
+                        <textarea class="form-control" id="textarea" name="textarea"></textarea>
                     </div>
                     <br>
 

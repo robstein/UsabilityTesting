@@ -14,15 +14,32 @@ namespace UoozabilityTesting.Controllers
     {
         private UoozabilityTestingContext db = new UoozabilityTestingContext();
 
+        List<string> questions = new List<string> { "Click where you would tap to write a new story", 
+                                                    "Click where you tap if you were looking for settings", 
+                                                    "What do you think the 'f' button does?",
+                                                    "" };
 
-        string[] questions = { "What would tap to write a new story?", 
-                               "What would you tap if you were looking for settings?", 
-                               "What do you think the 'f' button does?",
-                               "" };
-        string[] images = { "01", 
-                            "01", 
-                            "04",
-                            "END" };
+
+        List<string> images = new List<string>  { "01", 
+                                                  "01", 
+                                                  "04",
+                                                  "END" };
+
+
+        public ActionResult Results()
+        {
+            ViewBag.Message = "Results";
+            questions.RemoveAt(questions.Count - 1);
+            images.RemoveAt(images.Count - 1);
+            ViewData["questions"] = questions;
+            ViewData["images"] = images;
+
+
+            var results = db.Database.SqlQuery<ResultFeedback>("GetResults").ToList();
+
+
+            return View(results);
+        }
 
         public ActionResult Index()
         {
@@ -69,6 +86,7 @@ namespace UoozabilityTesting.Controllers
 
             return Json(new { question = questions[0], image = images[0] });
         }
+
 
         public ActionResult About()
         {

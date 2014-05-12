@@ -48,3 +48,13 @@ hr {
 #footer .container .text-muted {
   margin: 20px 0;
 }
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}

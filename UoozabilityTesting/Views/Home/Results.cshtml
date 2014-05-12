@@ -1,0 +1,121 @@
+﻿@model IEnumerable<UoozabilityTesting.Models.ResultFeedback> 
+
+@{
+    ViewBag.Title = "Results";
+}
+
+<div class="container theme-showcase" role="main" style="padding-top:20px">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <h1>Results</h1>
+        <p>These are the collective results for the questions posed in the Nooz Usability Testing survey.</p>
+    </div>
+    
+    <!--
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <h3 id="text_question" class="teststuff">
+                    1. Question
+                </h3>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row teststuff">
+                <div class="col-md-8">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>comments</th>
+                                    <th width="90">(x,y)</th>
+                                    <th width="90">email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>comment</td>
+                                    <td>(x, y)</td>
+                                    <td>example@example.com</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div id="wireframe01" style="width: 312px; height: 614px; background-image: url('/Content/nexus_nooz01.jpg'); ">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+
+    @{
+        var questions = ViewData["questions"] as List<string>;
+        var images = ViewData["images"] as List<string>;
+        int i = 0;
+        foreach(string q in questions)
+        {
+            @Html.Raw("<div class=\"panel panel-default\"><div class=\"panel-heading\"><h3 class=\"panel-title\"><h3 id=\"text_question\" class=\"teststuff\">");
+            @Html.Raw((i+1) + ". " + q);
+            @Html.Raw("</h3></h3></div><div class=\"panel-body\"><div class=\"row teststuff\"><div class=\"col-md-8\"><div class=\"table-responsive\"><table class=\"table table-striped\"><thead><tr>");
+            @Html.Raw("<th>comments</th><th width=\"90\">(x,y)</th><th width=\"90\">email</th></tr></thead><tbody>");
+            var q_results = from r in Model
+                            where r.question_id == i
+                            select r;
+            foreach (var item in q_results)
+            {
+                if ((item.xcoord != -1) && (item.ycoord != -1)) {
+                    @Html.Raw("<tr><td>" + item.comments + "</td><td>(" + item.xcoord + ", " + item.ycoord + ")</td><td>" + item.email + "</td></tr>");
+                }
+                else
+                {
+                    @Html.Raw("<tr><td>" + item.comments + "</td><td></td><td>" + item.email + "</td></tr>");
+                }
+            }
+            @Html.Raw("</tbody></table></div></div><div class=\"col-md-4\">");
+            @Html.Raw("<div id=\"wireframe" + i + "\" style=\"width: 312px; height: 614px; background-image: url('/Content/nexus_nooz" + images[i] + ".jpg'); \"></div>");
+            @Html.Raw("</div></div></div></div>");
+            i = i + 1;
+        }
+    }
+
+    <hr />
+
+
+    <script>
+        $(document).ready(function (e) {
+            @{
+                i = 0;
+                foreach (string q in questions)
+                {
+                    var q_results = from r in Model
+                                    where r.question_id == i
+                                    select r;
+                    int j = 0;
+                    @Html.Raw("var stage" + i + " = new Kinetic.Stage({container: 'wireframe" + i + "', width: 312, height: 614});");
+                    @Html.Raw("var layer" + i + " = new Kinetic.Layer();")
+                    foreach (var item in q_results)
+                    {
+                        if ((item.xcoord != -1) && (item.ycoord != -1)) {
+                            @Html.Raw("var setcircle" + i + j + " = new Kinetic.Circle({x:" + item.xcoord + ", y:" + item.ycoord + ", radius: 25, fill: 'red', stroke: 'black', strokeWidth: 2});");  
+                            @Html.Raw("setcircle" + i + j + ".opacity(0.5);")  
+                            @Html.Raw("layer" + i + ".add(setcircle" + i + j + ");");
+                            j = j + 1;
+                        }
+                    }
+                    @Html.Raw("stage" + i + ".add(layer" + i + ");");
+                    i = i + 1;
+                }
+            }
+
+        });
+
+        
+        
+        
+    </script>
+
+</div>
